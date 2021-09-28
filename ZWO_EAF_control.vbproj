@@ -87,10 +87,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\src\3rdParty\EAF SDK\lib\Win64\EAF_focuser.dll">
+    <None Include="..\src\3rdParty\EAF SDK\lib\Win64\EAF_focuser.dll">
       <Link>EAF_focuser.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="EAF-body.ico" />
   </ItemGroup>
   <ItemGroup>
