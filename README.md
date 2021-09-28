@@ -8,4 +8,6 @@ As there is no easy stand-alone software to connect and control the focuser via 
 You can connect the focuser (or even check if it is connected), read the current firmware version, position and temperatur.
 It is also possible to move the focuser by a certain amount.
 
+![Screenshot](screenshot.png)
+
 You are welcome to leave a comment or a change request - have fun!
