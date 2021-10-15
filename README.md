@@ -1,6 +1,6 @@
 # ZWO_EAF_control
 
-Small to to control the ASI ZWO EAF (Electronic Automatic Focuser)
+Small tool to control the ASI ZWO EAF (Electronic Automatic Focuser)
 
 The ASI ZWO EAF is an autofocus motor used in astronomy to focus the camera or eyepiece.
 As there is no easy stand-alone software to connect and control the focuser via PC I wrote this small tool.
