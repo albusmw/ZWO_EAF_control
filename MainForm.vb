@@ -4,6 +4,8 @@ Imports System.ComponentModel
 
 Public Class MainForm
 
+    Dim DefaultColor As Color = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.Control)
+
     Private MyPath As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly.Location)
 
     Private ID As Integer = Integer.MinValue
@@ -56,12 +58,21 @@ Public Class MainForm
         ZWOEAF.EAFIsMoving(ID, Moving, HandController)
         If RequestedPosition <> Integer.MinValue Then
             If RequestedPosition <> Position Then
-                Dim RetVal As Ato.cZWOEAF.EAF_ERROR_CODE = ZWOEAF.EAFMove(ID, RequestedPosition)
+                If Moving = False Then
+                    Dim RetVal As Ato.cZWOEAF.EAF_ERROR_CODE = ZWOEAF.EAFMove(ID, RequestedPosition)
+                    LogCall("EAFMove(" & ID & ")", RetVal)
+                End If
             End If
+        Else
+        End If
+        If (RequestedPosition <> Position) And (RequestedPosition <> Integer.MinValue) Then
+            tsslRequested.Text = "Requestes Position: " & RequestedPosition.ToString.Trim : tsslRequested.BackColor = Color.Orange
+        Else
+            tsslRequested.Text = "Requestes Position: ---" : tsslRequested.BackColor = DefaultColor
         End If
         tsslPosition.Text = "Position: " & Position.ValRegIndep
         tsslPosition.Text &= ", Temperature: " & Temp.ValRegIndep & " °C"
-        If Moving = True Then tsslPosition.BackColor = Color.Red Else tsslPosition.BackColor = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.Control)
+        If Moving = True Then tsslPosition.BackColor = Color.Red Else tsslPosition.BackColor = DefaultColor
         System.Windows.Forms.Application.DoEvents()
     End Sub
 
@@ -69,12 +80,20 @@ Public Class MainForm
         If ID <> Integer.MinValue Then ZWOEAF.EAFClose(ID)
     End Sub
 
-    Private Sub btnMoveIn_Click(sender As Object, e As EventArgs) Handles btnMoveIn.Click
-        RequestedPosition = Position + CInt(tbStepSize.Text)
+    Private Sub btnMoveIn_1_Click(sender As Object, e As EventArgs) Handles btnMoveIn_1.Click
+        RequestedPosition = Position + CInt(tbStepSize_1.Text)
     End Sub
 
-    Private Sub btnMoveOut_Click(sender As Object, e As EventArgs) Handles btnMoveOut.Click
-        RequestedPosition = Position - CInt(tbStepSize.Text)
+    Private Sub btnMoveOut_1_Click(sender As Object, e As EventArgs) Handles btnMoveOut_1.Click
+        RequestedPosition = Position - CInt(tbStepSize_1.Text)
+    End Sub
+
+    Private Sub btnMoveIn_2_Click(sender As Object, e As EventArgs) Handles btnMoveIn_2.Click
+        RequestedPosition = Position + CInt(tbStepSize_2.Text)
+    End Sub
+
+    Private Sub btnMoveOut_2_Click(sender As Object, e As EventArgs) Handles btnMoveOut_2.Click
+        RequestedPosition = Position - CInt(tbStepSize_2.Text)
     End Sub
 
     Private Sub LogCall(ByVal FunName As String, ByVal Result As Ato.cZWOEAF.EAF_ERROR_CODE)
@@ -91,6 +110,14 @@ Public Class MainForm
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
         tbDLLPath.Text = System.IO.Path.Combine(MyPath, "EAF_focuser.dll")
+    End Sub
+
+    Private Sub btnGoTo_Click(sender As Object, e As EventArgs) Handles btnGoTo.Click
+        Try
+            RequestedPosition = CInt(InputBox("GOTO: ", "Goto position", Position.ToString.Trim))
+        Catch ex As Exception
+            'Do nothing ...
+        End Try
     End Sub
 
 End Class
